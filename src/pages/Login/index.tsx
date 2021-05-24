@@ -1,6 +1,6 @@
 import { FC, useCallback, useRef } from 'react';
 import { Form } from '@unform/web';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { FormHandles } from '@unform/core';
 import { ValidationError } from 'yup';
 
@@ -10,31 +10,44 @@ import { formValidation } from './validations';
 import { getValidationErrors } from '../../helpers/getValidationErrors';
 import {
   Container,
+  Background,
   Content,
   InputContainer,
   RememberMe,
   Button,
 } from './styles';
+import { useAuth } from '../../hooks/auth';
 
 const Login: FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { login } = useAuth();
+  const { push } = useHistory();
 
-  const handleFormSubmit = useCallback(async data => {
-    try {
-      formRef.current?.setErrors({});
+  const handleFormSubmit = useCallback(
+    async data => {
+      try {
+        formRef.current?.setErrors({});
 
-      await formValidation(data);
-    } catch (err) {
-      if (err instanceof ValidationError) {
-        const errors = getValidationErrors(err);
+        await formValidation(data);
 
-        formRef.current?.setErrors(errors);
+        login(data.cpf, data.password);
+
+        push('/dashboard');
+      } catch (err) {
+        if (err instanceof ValidationError) {
+          const errors = getValidationErrors(err);
+
+          formRef.current?.setErrors(errors);
+        }
       }
-    }
-  }, []);
+    },
+    [login, push],
+  );
 
   return (
     <Container>
+      <Background />
+
       <Content>
         {/* <img
           src="https://gui10l1-github-projects.s3.amazonaws.com/fastfeet.png"
@@ -45,12 +58,7 @@ const Login: FC = () => {
 
         <Form onSubmit={handleFormSubmit} ref={formRef}>
           <InputContainer>
-            <Input
-              inputName="email"
-              placeholder="Email"
-              labelText="Email"
-              id="email"
-            />
+            <Input inputName="cpf" placeholder="CPF" labelText="CPF" id="cpf" />
 
             <hr />
 

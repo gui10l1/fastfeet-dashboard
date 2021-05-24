@@ -1,28 +1,45 @@
 import styled from 'styled-components';
 
+import backgroundImage from '../../assets/logistica-entrega.jpg';
+
 export const Container = styled.main`
+  display: flex;
+
   width: 100vw;
   height: 100vh;
-
-  position: relative;
 
   background-color: var(--background);
 `;
 
+export const Background = styled.div`
+  flex: 1;
+
+  background-image: url(${backgroundImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+`;
+
 export const Content = styled.div`
-  position: absolute;
-  top: 50%;
-  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
 
-  transform: translate(-50%, -50%);
-
-  width: 416px;
+  width: 736px;
 
   > h1 {
     color: var(--titles);
     font-size: 2.5rem;
 
     margin-bottom: 44px;
+  }
+
+  > form {
+    max-width: 416px;
+    width: 100%;
+
+    margin: 0 auto;
   }
 `;
 
