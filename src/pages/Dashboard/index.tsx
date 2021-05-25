@@ -1,16 +1,44 @@
 import { FC } from 'react';
-import { useAuth } from '../../hooks/auth';
+import { FiPlusCircle } from 'react-icons/fi';
+
+import { Card } from './components/Card';
+import { Header } from '../../components/layouts/Header';
+import { Master } from '../../components/layouts/Master';
+import { Container } from './styles';
 
 const Dashboard: FC = () => {
-  const { logout } = useAuth();
-
   return (
     <>
-      <h1>Dashboard</h1>
+      <Header>
+        <h1>Produtos</h1>
 
-      <button type="button" onClick={logout}>
-        Logout
-      </button>
+        <button type="button">
+          <FiPlusCircle />
+          Adicionar novo
+        </button>
+      </Header>
+
+      <Master>
+        <Container>
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+
+          <Card />
+        </Container>
+      </Master>
     </>
   );
 };

@@ -10,7 +10,7 @@ import {
 import { useField } from '@unform/core';
 
 import { Container } from './styles';
-import { Tooltip } from '../../../../components/Tooltip';
+import { Tooltip } from '../../../../components/elements/Tooltip';
 
 interface IInput extends InputHTMLAttributes<HTMLInputElement> {
   inputName: string;

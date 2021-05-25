@@ -6,7 +6,7 @@ export default createGlobalStyle`
     --yellow: #FFC042;
     --white: #fff;
     --error: #E62E2E;
-    --success: #00DA6D;
+    --success: #51B853;
     --texts: #BEBCCC;
     --texts-in-blue: #D5CCFF;
     --texts-base: #6F6C80;
@@ -23,9 +23,14 @@ export default createGlobalStyle`
     box-sizing: border-box;
   }
 
+  body {
+    background-color: var(--background);
+  }
+
   h1, h2, h3, h4, h5, h6 {
     font-family: 'Roboto Condensed', sans-serif;
     font-weight: 700;
+    color: var(--titles);
   }
 
   strong, button {
@@ -36,6 +41,12 @@ export default createGlobalStyle`
   input, body {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
+  }
+
+  a {
+    &:active {
+      color: inherit;
+    }
   }
 
   button {
