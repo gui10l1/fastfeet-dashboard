@@ -38,7 +38,7 @@ export default createGlobalStyle`
     font-weight: 500;
   }
 
-  input, body {
+  input, body, textarea {
     font-family: 'Inter', sans-serif;
     font-weight: 400;
   }

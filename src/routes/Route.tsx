@@ -2,7 +2,7 @@ import { ComponentType, FC } from 'react';
 import { RouteProps, Route as RouteDOM } from 'react-router-dom';
 
 import { useAuth } from '../hooks/auth';
-import { Dashboard } from '../pages/Dashboard';
+import { Products } from '../pages/Products';
 import { Login } from '../pages/Login';
 
 interface IRoute extends RouteProps {
@@ -31,7 +31,7 @@ const Route: FC<IRoute> = ({
           }
 
           if (user && !isPrivate) {
-            return <Dashboard />;
+            return <Products />;
           }
 
           return <Component />;

@@ -34,6 +34,8 @@ const AuthProvider: FC = ({ children }) => {
 
       setUser(parsedData.user);
 
+      fastFeetApi.defaults.headers.authorization = `Bearer ${parsedData.token}`;
+
       return;
     }
 
