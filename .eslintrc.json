@@ -59,6 +59,7 @@
       }
     }],
     "react/prop-types": "off",
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
     "react/jsx-props-no-spreading": "off"
   },
   "settings": {

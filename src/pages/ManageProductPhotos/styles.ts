@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Container as HeaderComponent } from '../../components/layouts/Header/styles';
 
 export const Header = styled(HeaderComponent)`
-  button {
+  button:nth-child(1) {
     background-color: var(--background);
 
     max-width: 40px;
@@ -23,9 +23,35 @@ export const Header = styled(HeaderComponent)`
 
 export const Container = styled.div``;
 
-export const FilePreview = styled.img`
-  width: calc(100% / 4 - 32px);
-  max-height: 300px;
+export const ImagesContainer = styled.div`
+  > h1 {
+    margin-bottom: 16px;
+  }
+`;
 
-  border-radius: 20px;
+export const Images = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  flex-wrap: wrap;
+`;
+
+export const Image = styled.div`
+  position: relative;
+
+  > img {
+    max-width: 500px;
+    height: auto;
+
+    border-radius: 10px;
+
+    position: relative;
+  }
+
+  > label {
+    position: absolute;
+
+    top: 10px;
+    right: 10px;
+  }
 `;

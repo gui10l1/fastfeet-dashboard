@@ -40,7 +40,9 @@ const Input: FC<IInput> = ({
       ref: inputRef.current,
       path: 'value',
     });
-  }, [fieldName, registerField]);
+
+    setIsFilled(!!defaultValue);
+  }, [fieldName, registerField, defaultValue]);
 
   const handleBlur = useCallback(
     (e: FocusEvent<HTMLInputElement>) => {

@@ -1,79 +1,77 @@
 import { FormHandles } from '@unform/core';
 import { Form } from '@unform/web';
-import { ChangeEvent, FC, useCallback, useRef, useState } from 'react';
+import { FC, useCallback, useEffect, useRef, useState } from 'react';
 import {
   FiArrowLeft,
   FiDollarSign,
+  FiImage,
   FiPackage,
+  FiRotateCcw,
   FiSave,
   FiShoppingCart,
 } from 'react-icons/fi';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useRouteMatch } from 'react-router-dom';
 import { ValidationError } from 'yup';
 
 import { Button } from '../../components/elements/Form/Button';
 import { FormRow } from '../../components/elements/Form/FormRow';
 import { Input } from '../../components/elements/Form/Input';
-import { InputFile } from '../../components/elements/Form/InputFile';
 import { Textarea } from '../../components/elements/Form/Textarea';
 import { Master } from '../../components/layouts/Master';
 import { getValidationErrors } from '../../helpers/getValidationErrors';
 import { fastFeetApi } from '../../services/fastFeetApi';
-import { Container, FilePreview, Header } from './styles';
+import { Container, Header } from './styles';
 import { formValidation } from './validations';
 
-interface ITarget extends EventTarget {
-  files: FileList;
+interface IParams {
+  productId: string;
 }
 
-const NewProduct: FC = () => {
+interface IProduct {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  quantityInStock: number;
+  imagesUrl: string[];
+}
+
+interface IResponse {
+  id: string;
+  name: string;
+  price: number;
+  description: string;
+  quantity_in_stock: number;
+  photos: string[];
+  imagesUrl: string[];
+}
+
+const EditProduct: FC = () => {
   const formRef = useRef<FormHandles>(null);
+  const { params } = useRouteMatch<IParams>();
   const { push } = useHistory();
 
-  const [files, setFiles] = useState<FileList>();
-  const [imagesToPreview, setImagesToPreview] = useState<string[]>();
+  const [product, setProduct] = useState<IProduct>();
 
-  const handleOnChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-    const target = e.target as ITarget;
-    const selectImagesFromUser = target.files;
-
-    setFiles(selectImagesFromUser);
-
-    const images = Array.from(selectImagesFromUser).map(image => {
-      return URL.createObjectURL(image);
-    });
-
-    setImagesToPreview(images);
-  }, []);
+  useEffect(() => {
+    fastFeetApi
+      .get<IResponse>(`/products/${params.productId}`)
+      .then(response => {
+        setProduct({
+          ...response.data,
+          quantityInStock: response.data.quantity_in_stock,
+        });
+      });
+  }, [params.productId]);
 
   const handleFormSubmit = useCallback(
     async data => {
       try {
         formRef.current?.setErrors({});
 
-        const dataFromForm = data;
+        await formValidation(data);
 
-        await formValidation(dataFromForm);
-
-        if (!files) {
-          // window.alert('Arquivos são obrigatórios');
-
-          return;
-        }
-
-        const formData = new FormData();
-
-        delete dataFromForm.photos;
-
-        Object.entries(dataFromForm).forEach(([name, value]) => {
-          const parsedValue = value as string;
-
-          formData.append(name, parsedValue);
-        });
-
-        Array.from(files).forEach(file => formData.append('photos', file));
-
-        await fastFeetApi.post('/products', formData);
+        await fastFeetApi.put(`/products/${params.productId}/`, data);
 
         // console.log('Sucesso!');
       } catch (err) {
@@ -84,12 +82,16 @@ const NewProduct: FC = () => {
         }
       }
     },
-    [files],
+    [params.productId],
   );
 
   const handleNavigateToDashboard = useCallback(() => {
     push('/dashboard');
   }, [push]);
+
+  const handleNavigateToManageImages = useCallback(() => {
+    push(`/products/${params.productId}/images`);
+  }, [push, params.productId]);
 
   return (
     <>
@@ -98,14 +100,17 @@ const NewProduct: FC = () => {
           <FiArrowLeft />
         </button>
 
-        <h1>Novo produto</h1>
+        <h1>Editar produto</h1>
 
-        <span />
+        <button type="button" onClick={handleNavigateToManageImages}>
+          <FiImage />
+          Gerenciar imagens
+        </button>
       </Header>
 
       <Master>
         <Container>
-          <Form ref={formRef} onSubmit={handleFormSubmit}>
+          <Form ref={formRef} onSubmit={handleFormSubmit} initialData={product}>
             <FormRow>
               <Input
                 name="name"
@@ -141,24 +146,13 @@ const NewProduct: FC = () => {
               />
             </FormRow>
 
-            <FormRow>
-              <InputFile
-                name="photos"
-                label="Fotos"
-                boxLabel="Adicionar arquivos"
-                alert="Tenha preferência por imagens retangulares"
-                multiple
-                onChange={handleOnChange}
-              >
-                {imagesToPreview?.map(item => (
-                  <FilePreview src={item} key={item} />
-                ))}
-              </InputFile>
-            </FormRow>
-
             <FormRow buttonWrapper>
+              <Button type="reset" icon={FiRotateCcw}>
+                Resetar formulário
+              </Button>
+
               <Button type="submit" icon={FiSave}>
-                Salvar novo produto
+                Salvar alterações
               </Button>
             </FormRow>
           </Form>
@@ -168,4 +162,4 @@ const NewProduct: FC = () => {
   );
 };
 
-export { NewProduct };
+export { EditProduct };

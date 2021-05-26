@@ -7,6 +7,7 @@ export default createGlobalStyle`
     --white: #fff;
     --error: #E62E2E;
     --success: #51B853;
+    --warning: #f0ad4e;
     --texts: #BEBCCC;
     --texts-in-blue: #D5CCFF;
     --texts-base: #6F6C80;

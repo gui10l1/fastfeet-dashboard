@@ -27,7 +27,7 @@ export const Content = styled.div<IContainer>`
   border-radius: 12px;
   border: 2px dashed #dce2e6;
 
-  height: 160px;
+  height: 300px;
 
   margin-top: 6px;
 
@@ -85,6 +85,7 @@ export const Content = styled.div<IContainer>`
     font-weight: 500;
 
     padding-right: 10px;
+    margin-bottom: 35px;
 
     &::placeholder {
       color: var(--texts);
@@ -106,5 +107,26 @@ export const ChildrenContainer = styled.div`
   align-items: center;
   gap: 16px;
 
+  overflow: auto;
+
   padding: 10px;
+`;
+
+export const AlertContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+`;
+
+export const Alert = styled.div`
+  display: flex;
+  align-items: center;
+
+  color: var(--warning);
+  font-weight: 500;
+
+  > svg {
+    margin-right: 8px;
+    color: var(--warning);
+  }
 `;

@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import { Container as HeaderComponent } from '../../components/layouts/Header/styles';
 
 export const Header = styled(HeaderComponent)`
-  button {
+  button:nth-child(1) {
     background-color: var(--background);
 
     max-width: 40px;
@@ -22,10 +22,3 @@ export const Header = styled(HeaderComponent)`
 `;
 
 export const Container = styled.div``;
-
-export const FilePreview = styled.img`
-  width: calc(100% / 4 - 32px);
-  max-height: 300px;
-
-  border-radius: 20px;
-`;

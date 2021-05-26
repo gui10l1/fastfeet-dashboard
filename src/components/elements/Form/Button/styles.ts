@@ -30,7 +30,7 @@ export const Container = styled.button`
   ${props =>
     props.type === 'reset' &&
     css`
-      background-color: var(--danger);
+      background-color: var(--error);
       color: white;
 
       > svg {

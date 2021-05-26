@@ -8,21 +8,30 @@ import {
   useRef,
   useState,
 } from 'react';
-import { FiPlus } from 'react-icons/fi';
+import { FiAlertCircle, FiPlus } from 'react-icons/fi';
 import { Tooltip } from '../../Tooltip';
 
-import { Container, Label, Content, ChildrenContainer } from './styles';
+import {
+  Container,
+  Label,
+  Content,
+  ChildrenContainer,
+  AlertContainer,
+  Alert,
+} from './styles';
 
 interface IInputFile extends InputHTMLAttributes<HTMLInputElement> {
   name: string;
   label: string;
   boxLabel: string;
+  alert?: string;
 }
 
 const InputFile: FC<IInputFile> = ({
   name,
   label,
   boxLabel,
+  alert,
   autoFocus,
   onFocus,
   onBlur,
@@ -70,7 +79,15 @@ const InputFile: FC<IInputFile> = ({
 
   return (
     <Container>
-      <Label htmlFor={label.toLowerCase().replace(' ', '-')}>{label}</Label>
+      <AlertContainer>
+        <Label htmlFor={label.toLowerCase().replace(' ', '-')}>{label}</Label>
+
+        <Alert>
+          <FiAlertCircle size={20} />
+
+          {alert}
+        </Alert>
+      </AlertContainer>
       <Content isFilled={isFilled} isFocused={isFocused}>
         <ChildrenContainer>{children}</ChildrenContainer>
 
