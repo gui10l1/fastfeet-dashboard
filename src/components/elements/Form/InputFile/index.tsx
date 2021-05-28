@@ -82,11 +82,13 @@ const InputFile: FC<IInputFile> = ({
       <AlertContainer>
         <Label htmlFor={label.toLowerCase().replace(' ', '-')}>{label}</Label>
 
-        <Alert>
-          <FiAlertCircle size={20} />
+        {alert && (
+          <Alert>
+            <FiAlertCircle size={20} />
 
-          {alert}
-        </Alert>
+            {alert}
+          </Alert>
+        )}
       </AlertContainer>
       <Content isFilled={isFilled} isFocused={isFocused}>
         <ChildrenContainer>{children}</ChildrenContainer>

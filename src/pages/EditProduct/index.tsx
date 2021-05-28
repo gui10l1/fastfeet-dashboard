@@ -6,7 +6,7 @@ import {
   FiDollarSign,
   FiImage,
   FiPackage,
-  FiRotateCcw,
+  // FiRotateCcw,
   FiSave,
   FiShoppingCart,
 } from 'react-icons/fi';
@@ -17,6 +17,7 @@ import { Button } from '../../components/elements/Form/Button';
 import { FormRow } from '../../components/elements/Form/FormRow';
 import { Input } from '../../components/elements/Form/Input';
 import { Textarea } from '../../components/elements/Form/Textarea';
+import { FormSkeleton } from '../../components/layouts/Loaders/Form';
 import { Master } from '../../components/layouts/Master';
 import { getValidationErrors } from '../../helpers/getValidationErrors';
 import { fastFeetApi } from '../../services/fastFeetApi';
@@ -49,7 +50,7 @@ interface IResponse {
 const EditProduct: FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { params } = useRouteMatch<IParams>();
-  const { push } = useHistory();
+  const { push, goBack } = useHistory();
 
   const [product, setProduct] = useState<IProduct>();
 
@@ -71,7 +72,17 @@ const EditProduct: FC = () => {
 
         await formValidation(data);
 
-        await fastFeetApi.put(`/products/${params.productId}/`, data);
+        const { data: productFromApi } = await fastFeetApi.put<IResponse>(
+          `/products/${params.productId}/`,
+          data,
+        );
+
+        const parsedProduct = {
+          ...productFromApi,
+          quantityInStock: productFromApi.quantity_in_stock,
+        };
+
+        setProduct(parsedProduct);
 
         // console.log('Sucesso!');
       } catch (err) {
@@ -85,9 +96,9 @@ const EditProduct: FC = () => {
     [params.productId],
   );
 
-  const handleNavigateToDashboard = useCallback(() => {
-    push('/dashboard');
-  }, [push]);
+  const handleNavigateBack = useCallback(() => {
+    goBack();
+  }, [goBack]);
 
   const handleNavigateToManageImages = useCallback(() => {
     push(`/products/${params.productId}/images`);
@@ -96,7 +107,7 @@ const EditProduct: FC = () => {
   return (
     <>
       <Header>
-        <button type="button" onClick={handleNavigateToDashboard}>
+        <button type="button" onClick={handleNavigateBack}>
           <FiArrowLeft />
         </button>
 
@@ -110,52 +121,60 @@ const EditProduct: FC = () => {
 
       <Master>
         <Container>
-          <Form ref={formRef} onSubmit={handleFormSubmit} initialData={product}>
-            <FormRow>
-              <Input
-                name="name"
-                label="Nome"
-                icon={FiShoppingCart}
-                placeholder="Insira o nome do produto"
-              />
+          {!product ? (
+            <FormSkeleton />
+          ) : (
+            <Form
+              ref={formRef}
+              onSubmit={handleFormSubmit}
+              initialData={product}
+            >
+              <FormRow>
+                <Input
+                  name="name"
+                  label="Nome"
+                  icon={FiShoppingCart}
+                  placeholder="Insira o nome do produto"
+                />
 
-              <Input
-                name="price"
-                label="Preço"
-                icon={FiDollarSign}
-                placeholder="Insira o preço do produto"
-              />
-            </FormRow>
+                <Input
+                  name="price"
+                  label="Preço"
+                  icon={FiDollarSign}
+                  placeholder="Insira o preço do produto"
+                />
+              </FormRow>
 
-            <FormRow>
-              <Input
-                name="quantityInStock"
-                type="number"
-                label="Quantidade em estoque"
-                icon={FiPackage}
-                placeholder="Quantidade do produto em estoque"
-              />
-            </FormRow>
+              <FormRow>
+                <Input
+                  name="quantityInStock"
+                  type="number"
+                  label="Quantidade em estoque"
+                  icon={FiPackage}
+                  placeholder="Quantidade do produto em estoque"
+                />
+              </FormRow>
 
-            <FormRow>
-              <Textarea
-                name="description"
-                label="Descrição"
-                placeholder="Escreva a descrição do produto"
-                rows={10}
-              />
-            </FormRow>
+              <FormRow>
+                <Textarea
+                  name="description"
+                  label="Descrição"
+                  placeholder="Escreva a descrição do produto"
+                  rows={10}
+                />
+              </FormRow>
 
-            <FormRow buttonWrapper>
-              <Button type="reset" icon={FiRotateCcw}>
-                Resetar formulário
-              </Button>
+              <FormRow buttonWrapper>
+                {/* <Button type="reset" icon={FiRotateCcw}>
+                  Resetar formulário
+                </Button> */}
 
-              <Button type="submit" icon={FiSave}>
-                Salvar alterações
-              </Button>
-            </FormRow>
-          </Form>
+                <Button type="submit" icon={FiSave}>
+                  Salvar alterações
+                </Button>
+              </FormRow>
+            </Form>
+          )}
         </Container>
       </Master>
     </>

@@ -23,11 +23,7 @@ export const Header = styled(HeaderComponent)`
 
 export const Container = styled.div``;
 
-export const ImagesContainer = styled.div`
-  > h1 {
-    margin-bottom: 16px;
-  }
-`;
+export const ImagesContainer = styled.div``;
 
 export const Images = styled.div`
   display: flex;
@@ -54,4 +50,11 @@ export const Image = styled.div`
     top: 10px;
     right: 10px;
   }
+`;
+
+export const FilePreview = styled.img`
+  width: calc(100% / 4 - 32px);
+  max-height: 300px;
+
+  border-radius: 20px;
 `;

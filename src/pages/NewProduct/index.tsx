@@ -28,7 +28,7 @@ interface ITarget extends EventTarget {
 
 const NewProduct: FC = () => {
   const formRef = useRef<FormHandles>(null);
-  const { push } = useHistory();
+  const { goBack } = useHistory();
 
   const [files, setFiles] = useState<FileList>();
   const [imagesToPreview, setImagesToPreview] = useState<string[]>();
@@ -87,14 +87,14 @@ const NewProduct: FC = () => {
     [files],
   );
 
-  const handleNavigateToDashboard = useCallback(() => {
-    push('/dashboard');
-  }, [push]);
+  const handleNavigateBack = useCallback(() => {
+    goBack();
+  }, [goBack]);
 
   return (
     <>
       <Header>
-        <button type="button" onClick={handleNavigateToDashboard}>
+        <button type="button" onClick={handleNavigateBack}>
           <FiArrowLeft />
         </button>
 

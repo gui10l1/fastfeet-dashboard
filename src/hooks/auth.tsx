@@ -17,29 +17,47 @@ interface IUser {
 
 interface IAuthContext {
   user: IUser | undefined;
+  loading: boolean;
   login(cpf: string, password: string): Promise<void>;
   logout(): Promise<void>;
+}
+
+interface IStoragedData {
+  user: IUser;
+  token: string;
 }
 
 const AuthContext = createContext<IAuthContext>({} as IAuthContext);
 
 const AuthProvider: FC = ({ children }) => {
   const [user, setUser] = useState<IUser | undefined>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkSession = localStorage.getItem('@FastFeetDashboard:Auth');
+    async function verifyToken() {
+      const checkSession = localStorage.getItem('@FastFeetDashboard:Auth');
 
-    if (checkSession) {
-      const parsedData = JSON.parse(checkSession);
+      if (checkSession) {
+        const parsedData = JSON.parse(checkSession) as IStoragedData;
 
-      setUser(parsedData.user);
+        const { data } = await fastFeetApi.post('/sessions/verify', {
+          token: parsedData.token,
+        });
 
-      fastFeetApi.defaults.headers.authorization = `Bearer ${parsedData.token}`;
+        setUser(parsedData.user);
 
-      return;
+        fastFeetApi.defaults.headers.authorization = `Bearer ${data}`;
+
+        setLoading(false);
+
+        return;
+      }
+
+      setUser(undefined);
+      setLoading(false);
     }
 
-    setUser(undefined);
+    verifyToken();
   }, []);
 
   const login = useCallback(async (cpf: string, password: string) => {
@@ -70,7 +88,7 @@ const AuthProvider: FC = ({ children }) => {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ user, login, logout }}>
+    <AuthContext.Provider value={{ user, login, logout, loading }}>
       {children}
     </AuthContext.Provider>
   );

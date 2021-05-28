@@ -37,4 +37,11 @@ export const Container = styled.button`
         color: #fff;
       }
     `}
+
+    ${props =>
+    props.disabled &&
+    css`
+      opacity: 0.5;
+      cursor: not-allowed;
+    `}
 `;

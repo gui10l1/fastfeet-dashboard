@@ -74,7 +74,9 @@ export const Content = styled.div<IContainer>`
 
     flex: 1;
 
-    height: 100%;
+    height: 95%;
+
+    align-self: flex-start;
 
     background-color: transparent;
 
@@ -85,7 +87,6 @@ export const Content = styled.div<IContainer>`
     font-weight: 500;
 
     padding-right: 10px;
-    margin-bottom: 35px;
 
     &::placeholder {
       color: var(--texts);

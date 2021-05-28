@@ -32,7 +32,7 @@ const Login: FC = () => {
 
         login(data.cpf, data.password);
 
-        push('/dashboard');
+        push('/products');
       } catch (err) {
         if (err instanceof ValidationError) {
           const errors = getValidationErrors(err);
