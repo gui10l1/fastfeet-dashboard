@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components';
 
-interface ITextareaStyled {
+interface ITextarea {
   isFocused: boolean;
+  isDisabled: boolean;
 }
 
 export const Container = styled.div`
@@ -19,7 +20,7 @@ export const Label = styled.label`
   margin-bottom: 6px;
 `;
 
-export const TextareaStyled = styled.textarea<ITextareaStyled>`
+export const TextareaStyled = styled.textarea<ITextarea>`
   max-width: 100%;
   width: 100%;
 
@@ -48,5 +49,11 @@ export const TextareaStyled = styled.textarea<ITextareaStyled>`
     props.isFocused &&
     css`
       border-color: var(--blue);
+    `}
+
+  ${props =>
+    props.isDisabled &&
+    css`
+      background-color: #e6e9ec;
     `}
 `;

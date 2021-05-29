@@ -1,5 +1,5 @@
 import { FC } from 'react';
-import { FiLogOut, FiShoppingBag, FiUsers } from 'react-icons/fi';
+import { FiLogOut, FiShoppingBag, FiSmile, FiUsers } from 'react-icons/fi';
 import { useRouteMatch } from 'react-router-dom';
 
 import { BrandContainer, Container, Logout, Menus, Link } from './styles';
@@ -22,12 +22,14 @@ const Aside: FC = () => {
           <span>Produtos</span>
         </Link>
 
-        <Link
-          to="/delivery-men"
-          active={Number(path.search('/delivery-men') >= 0)}
-        >
+        <Link to="/users" active={Number(path.search('/users') >= 0)}>
           <FiUsers />
-          <span>Entregadores</span>
+          <span>Usuários</span>
+        </Link>
+
+        <Link to="/clients" active={Number(path.search('/clients') >= 0)}>
+          <FiSmile />
+          <span>Clientes</span>
         </Link>
       </Menus>
 

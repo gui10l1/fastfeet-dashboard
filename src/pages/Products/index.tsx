@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Header } from '../../components/layouts/Header';
 import { Master } from '../../components/layouts/Master';
 import { fastFeetApi } from '../../services/fastFeetApi';
-import { ListSkeleton } from '../../components/layouts/Loaders/List';
+import { Loader } from '../../components/layouts/Loader';
 import {
   Container,
   Card,
@@ -54,6 +54,10 @@ const Products: FC = () => {
     push('/products/new');
   }, [push]);
 
+  const handleDeleteProduct = useCallback(() => {
+    // CODE
+  }, []);
+
   return (
     <>
       <Header>
@@ -68,7 +72,7 @@ const Products: FC = () => {
       <Master>
         <Container>
           {!products ? (
-            <ListSkeleton />
+            <Loader />
           ) : (
             products.map(product => (
               <Card key={product.id}>

@@ -17,7 +17,7 @@ import { Button } from '../../components/elements/Form/Button';
 import { FormRow } from '../../components/elements/Form/FormRow';
 import { Input } from '../../components/elements/Form/Input';
 import { Textarea } from '../../components/elements/Form/Textarea';
-import { FormSkeleton } from '../../components/layouts/Loaders/Form';
+import { Loader } from '../../components/layouts/Loader';
 import { Master } from '../../components/layouts/Master';
 import { getValidationErrors } from '../../helpers/getValidationErrors';
 import { fastFeetApi } from '../../services/fastFeetApi';
@@ -122,7 +122,7 @@ const EditProduct: FC = () => {
       <Master>
         <Container>
           {!product ? (
-            <FormSkeleton />
+            <Loader />
           ) : (
             <Form
               ref={formRef}

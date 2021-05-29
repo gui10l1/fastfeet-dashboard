@@ -65,6 +65,7 @@ const Textarea: FC<ITextarea> = ({
     <Container>
       <Label>{label}</Label>
       <TextareaStyled
+        isDisabled={!!rest.disabled}
         isFocused={isFocused}
         name={name}
         ref={textareaRef}

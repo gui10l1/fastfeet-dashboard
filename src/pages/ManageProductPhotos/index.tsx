@@ -18,7 +18,7 @@ import {
   Image,
   FilePreview,
 } from './styles';
-import { ListSkeleton } from '../../components/layouts/Loaders/List';
+import { Loader } from '../../components/layouts/Loader';
 
 interface IParams {
   productId: string;
@@ -167,7 +167,7 @@ const ManageProductPhotos: FC = () => {
 
             <FormRow>
               <Images>
-                {!product && <ListSkeleton />}
+                {!product && <Loader />}
 
                 {product &&
                   product.imagesUrl.map((image, index) => (

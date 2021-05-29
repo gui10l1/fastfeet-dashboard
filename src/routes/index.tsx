@@ -7,7 +7,10 @@ import { Login } from '../pages/Login';
 import { NewProduct } from '../pages/NewProduct';
 import { EditProduct } from '../pages/EditProduct';
 import { ManageProductPhotos } from '../pages/ManageProductPhotos';
-import { DeliveryMen } from '../pages/DeliveryMen';
+import { Users } from '../pages/Users';
+import { ViewUser } from '../pages/ViewUser';
+import { Clients } from '../pages/Clients';
+import { ViewClient } from '../pages/ViewClient';
 
 const Routes: FC = () => {
   return (
@@ -27,7 +30,11 @@ const Routes: FC = () => {
         component={ManageProductPhotos}
       />
 
-      <Route path="/delivery-men" exact isPrivate component={DeliveryMen} />
+      <Route path="/users" exact isPrivate component={Users} />
+      <Route path="/users/:userId" isPrivate component={ViewUser} />
+
+      <Route path="/clients" exact isPrivate component={Clients} />
+      <Route path="/clients/:clientId" isPrivate component={ViewClient} />
 
       <Route path="/login" component={Login} />
     </Switch>

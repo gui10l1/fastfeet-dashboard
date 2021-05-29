@@ -3,6 +3,7 @@ import styled, { css } from 'styled-components';
 interface IContainer {
   isFocused: boolean;
   isFilled: boolean;
+  isDisabled: boolean;
 }
 
 export const Container = styled.div`
@@ -32,6 +33,7 @@ export const Content = styled.div<IContainer>`
   transition: border-color 0.2s;
 
   padding-right: 10px;
+  padding-left: 8px;
 
   ${props =>
     props.isFocused &&
@@ -39,9 +41,14 @@ export const Content = styled.div<IContainer>`
       border-color: var(--blue);
     `}
 
+  ${props =>
+    props.isDisabled &&
+    css`
+      background-color: #e6e9ec;
+    `}
+
   > svg {
     margin-right: 16px;
-    margin-left: 8px;
     color: var(--texts-base);
 
     transition: color 0.2s;

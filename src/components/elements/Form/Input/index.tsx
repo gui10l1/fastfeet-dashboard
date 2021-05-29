@@ -72,7 +72,11 @@ const Input: FC<IInput> = ({
   return (
     <Container>
       <Label>{label}</Label>
-      <Content isFocused={isFocused} isFilled={isFilled}>
+      <Content
+        isFocused={isFocused}
+        isFilled={isFilled}
+        isDisabled={!!rest.disabled}
+      >
         {Icon && <Icon size={24} />}
 
         <input

@@ -1,16 +1,10 @@
-import { FC, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { FiEdit } from 'react-icons/fi';
+import { FC, useCallback, useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 import { Header } from '../../components/layouts/Header';
 import { Master } from '../../components/layouts/Master';
 import { fastFeetApi } from '../../services/fastFeetApi';
-import {
-  Container,
-  DeliveryMan,
-  DeliveryManInfo,
-  ButtonWrapper,
-} from './styles';
+import { Container, User, UserInfo } from './styles';
 import fastFeetLogo from '../../assets/logo.svg';
 
 interface IDeliveryMan {
@@ -21,7 +15,9 @@ interface IDeliveryMan {
   deliveryman: boolean;
 }
 
-const DeliveryMen: FC = () => {
+const Users: FC = () => {
+  const { push } = useHistory();
+
   const [deliveryMen, setDeliveryMen] = useState<IDeliveryMan[]>();
 
   useEffect(() => {
@@ -32,17 +28,27 @@ const DeliveryMen: FC = () => {
     loadDeliveryMen();
   }, []);
 
+  const handleNavigateToEditUser = useCallback(
+    (userId: string) => {
+      push(`/users/${userId}`);
+    },
+    [push],
+  );
+
   return (
     <>
       <Header>
-        <h1>Entregadores</h1>
+        <h1>Usuários</h1>
       </Header>
       <Master>
         <Container>
           {deliveryMen &&
             deliveryMen.map(item => (
-              <DeliveryMan key={item.id}>
-                <DeliveryManInfo>
+              <User
+                onClick={() => handleNavigateToEditUser(item.id)}
+                key={item.id}
+              >
+                <UserInfo>
                   <img src={fastFeetLogo} alt="FastFeet logo" />
 
                   <div>
@@ -52,14 +58,8 @@ const DeliveryMen: FC = () => {
                       {item.deliveryman ? 'Entregador' : 'Administrador'}
                     </span>
                   </div>
-                </DeliveryManInfo>
-
-                <ButtonWrapper>
-                  <Link to="/">
-                    <FiEdit size={24} />
-                  </Link>
-                </ButtonWrapper>
-              </DeliveryMan>
+                </UserInfo>
+              </User>
             ))}
         </Container>
       </Master>
@@ -67,4 +67,4 @@ const DeliveryMen: FC = () => {
   );
 };
 
-export { DeliveryMen };
+export { Users };

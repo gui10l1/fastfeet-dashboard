@@ -7,10 +7,12 @@ export const Container = styled.div`
   gap: 32px;
 `;
 
-export const DeliveryMan = styled.div`
+export const User = styled.button`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  text-align: start;
 
   max-width: calc(100% / 2 - 42px);
   min-width: 490px;
@@ -29,7 +31,7 @@ export const DeliveryMan = styled.div`
   }
 `;
 
-export const DeliveryManInfo = styled.div`
+export const UserInfo = styled.div`
   display: flex;
   align-items: center;
 
@@ -48,30 +50,6 @@ export const DeliveryManInfo = styled.div`
     > span {
       font-size: 1.15rem;
       color: var(--texts-in-blue);
-    }
-  }
-`;
-
-export const ButtonWrapper = styled.div`
-  > a {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    padding: 5px;
-
-    color: var(--yellow);
-
-    text-decoration: none;
-
-    background-color: transparent;
-
-    border-radius: 10px;
-
-    transition: background-color 0.4s;
-
-    &:hover {
-      background-color: var(--white);
     }
   }
 `;
